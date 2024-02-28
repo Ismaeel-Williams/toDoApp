@@ -1,39 +1,34 @@
-// CRUD - create, read, update, delte
-// {id:1, title:"lets go walk", dueDate:"2024-02-28"}
+// CRUD - create, read, update, delete
+// Retrieve todos from localStorage
+let getData = JSON.parse(localStorage.getItem('todos'));
 
-let getData = JSON.parse(localStorage.getItem('todos')) 
+// Initialize todos array
+let todos = getData || [];
 
-// let todos = [
-//   { id: 1, title: "lets go walk", dueDate: "2024-02-28" },
-//   { id: 2, title: "go for shopping", dueDate: "2024-02-29" },
-// ];
-
-let todos = getData;
-
-
-
+// Get reference to the submit button
 let btn = document.getElementById("btn");
 
+// Add event listener to the submit button
 btn.addEventListener("click", addTodo);
 
-
-function storeData(){
-  localStorage.setItem('todos', JSON.stringify(todos))
+// Function to store todos data in localStorage
+function storeData() {
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+// Function to add a new todo
 function addTodo() {
   let title = document.getElementById("title").value;
   let dueDate = document.getElementById("dueDate").value;
   let id = new Date().getTime();
   todos.push({ id: id, title: title, dueDate: dueDate });
-  document.getElementById("title").value = ""
+  document.getElementById("title").value = "";
   storeData();
   render();
 }
 
-//update
+// Function to update a todo
 let indexValue;
-
 function updateTodo(e) {
   e.preventDefault();
   let id = Number(e.target.id);
@@ -52,29 +47,27 @@ function updateTodo(e) {
   form.append(ubtn);
 }
 
+// Function to save updated todo
 function saveTodo() {
   document.getElementById("updateId").style = "display:none";
   document.getElementById("btn").style = "display:block";
   let title = document.getElementById("title").value;
   let obj = todos[indexValue];
-
   todos[indexValue] = { ...obj, title: title };
   storeData();
   document.getElementById("title").value = "";
   render();
 }
 
-//delete
-
+// Function to delete a todo
 function deleteTodo(e){
   let id = Number(e.target.id);
- todos = todos.filter((todo)=>todo.id !== id)
- storeData();
- render();
+  todos = todos.filter((todo)=>todo.id !== id)
+  storeData();
+  render();
 }
 
-// view/ read/ display
-
+// Function to render todos on the page
 const render = function () {
   document.getElementById("render").innerHTML = "";
   todos.map((todo) => {
@@ -99,4 +92,5 @@ const render = function () {
   });
 };
 
+// Initial rendering of todos
 render();
